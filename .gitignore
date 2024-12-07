@@ -1,0 +1,9 @@
+# aoc inputs
+inputs/
+.aoc-cookie
+
+# build
+bin/
+
+# dotnet
+obj/
