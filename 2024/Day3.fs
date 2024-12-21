@@ -20,22 +20,36 @@ let parseMul (s:string) =
     let pair = s.Replace("mul(", "").Replace(")", "").Split(",")
     int pair[0] * int pair[1]
 
-let extractMatches memory = 
-    //let input = String.concat "" memory
+let extractMatches memory checkDo = 
+    let rec extractEnabledBlocks (input: string) (enabled: bool): string =
+        if enabled then
+            let nextDont = input.IndexOf "don't()"
+            if nextDont = -1 then
+               input 
+            else 
+                input.[0..nextDont] + (extractEnabledBlocks input.[nextDont..] false)
+            
+        else
+            let dos = input.IndexOf "do()"
+            if dos = -1 then
+                ""
+            else 
+                extractEnabledBlocks input.[dos..] true 
+
+    let input = 
+        let concat = String.concat "" memory
+        if checkDo then
+            extractEnabledBlocks concat true        
+        else
+            concat
+
     let pattern = @"(mul\(\d{1,3},\d{1,3}\))"
     let regex = new Regex(pattern)
-
-    let matches =  
-        memory
-        |> List.map (fun x -> regex.Matches(x)) 
+    let matches = regex.Matches input
     
     matches
-    |> List.map (fun x -> 
-        x
-        |> Seq.map (fun x -> parseMul (string x))
-        |> Seq.sum
-    )
-    |> List.sum
+    |> Seq.map (fun x -> parseMul (string x))
+    |> Seq.sum
     
 
 let main test = 
@@ -43,4 +57,4 @@ let main test =
         if not test then Some("inputs/day3-input")
         else None
 
-    printfn "%d" (extractMatches (getInput inputPath))
+    printfn "%d" (extractMatches (getInput inputPath) true)
