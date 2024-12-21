@@ -1,0 +1,9 @@
+# aoc inputs
+inputs/
+answers/
+
+# build
+bin/
+
+# dotnet
+obj/
