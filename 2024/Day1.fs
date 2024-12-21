@@ -19,22 +19,21 @@ let distance (EqualLengthLists(list1, list2)) =
 
     d (List.sort list1) (List.sort list2)
 
-let similarity(list1, list2) = 
+let similarity (list1, list2) =
     let list1 = List.sort list1
     let list2 = List.sort list2
-    let rec countInstances l i = 
+
+    let rec countInstances l i =
         match l with
-        | head::tail -> 
+        | head :: tail ->
             if i > head then 0 + countInstances tail i
             elif i < head then 0 // assuming sorted
-            else 
-                1 + countInstances tail i
-        | [] -> 0 
+            else 1 + countInstances tail i
+        | [] -> 0
 
     let rec getSimilarity l =
         match l with
-        | head :: tail -> 
-            (head * (countInstances list2 head)) + getSimilarity tail
+        | head :: tail -> (head * (countInstances list2 head)) + getSimilarity tail
         | [] -> 0
 
     getSimilarity (list1)
@@ -53,19 +52,22 @@ let getArraysFromInput (lines: string list) =
     leftList, rightList
 
 let getInput (inputPath: string option) =
-    let testFile = """3   4
+    let testFile =
+        """3   4
 4   3
 2   5
 1   3
 3   9
 3   3"""
-    let lines = 
+
+    let lines =
         match inputPath with
         | (Some p) ->
             if not (System.IO.File.Exists p) then
-                printfn "Input path '%s' does not exist." p 
+                printfn "Input path '%s' does not exist." p
                 System.Environment.Exit(1)
-            System.IO.File.ReadAllLines p 
+
+            System.IO.File.ReadAllLines p
         | None -> testFile.Split("\n")
 
     getArraysFromInput (Array.toList lines)
@@ -75,9 +77,7 @@ let getInput (inputPath: string option) =
 
 let main () =
     let test: bool = false
-    let inputPath = 
-        if not test then Some("inputs/day1-input")
-        else None
+    let inputPath = if not test then Some("inputs/day1-input") else None
     let list1, list2 = (getInput inputPath)
     let ls = EqualLengthLists.Create(list1, list2)
 
@@ -87,5 +87,5 @@ let main () =
     | Some lists -> printfn "Distance: %d" (distance lists)
     | None -> printfn "Lists must be of equal length"
 
-    // calculate similarity 
+    // calculate similarity
     printfn "Similarity: %d" (similarity (list1, list2))
