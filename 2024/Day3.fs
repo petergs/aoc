@@ -30,11 +30,11 @@ let extractMatches memory checkDo =
                 input.[0..nextDont] + (extractEnabledBlocks input.[nextDont..] false)
             
         else
-            let dos = input.IndexOf "do()"
-            if dos = -1 then
+            let nextDo = input.IndexOf "do()"
+            if nextDo = -1 then
                 ""
             else 
-                extractEnabledBlocks input.[dos..] true 
+                extractEnabledBlocks input.[nextDo..] true 
 
     let input = 
         let concat = String.concat "" memory
@@ -57,5 +57,5 @@ let main test =
         if not test then Some("inputs/day3-input")
         else None
 
-    printfn "Part 1: %d" (extractMatches (getInput inputPath) true)
-    printfn "Part 2: %d" (extractMatches (getInput inputPath) false)
+    printfn "Part 1: %d" (extractMatches (getInput inputPath) false)
+    printfn "Part 2: %d" (extractMatches (getInput inputPath) true)
