@@ -1,1 +1,2 @@
-# aoc2024-fs
+# aoc
+> Solutions to [Advent of Code](https://adventofcode.com)
