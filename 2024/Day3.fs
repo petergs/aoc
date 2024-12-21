@@ -57,4 +57,5 @@ let main test =
         if not test then Some("inputs/day3-input")
         else None
 
-    printfn "%d" (extractMatches (getInput inputPath) true)
+    printfn "Part 1: %d" (extractMatches (getInput inputPath) true)
+    printfn "Part 2: %d" (extractMatches (getInput inputPath) false)
